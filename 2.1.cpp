@@ -1,3 +1,4 @@
+//1. Write a program to count number of significant digits in a given number.
 #include <bits/stdc++.h>
 using namespace std;
 
