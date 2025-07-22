@@ -1,0 +1,334 @@
+/*
+
+4.1. Write a program to find the least square line y = a + bx for the following data
+        x     -2    -1     0     1     2
+        y      1     2     3     4     5
+
+
+*/
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter number of data points: ";
+    cin >> n;
+
+    double x[n+1], y[n+1];
+    double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+
+    cout << "Enter x values:\n";
+    for (int i = 0; i < n; i++) cin >> x[i];
+    
+    cout << "Enter y values:\n";
+    for (int i = 0; i < n; i++) cin >> y[i];
+
+    for (int i = 0; i < n; i++) {
+        sumX += x[i];
+        sumY += y[i];
+        sumXY += x[i] * y[i];
+        sumX2 += x[i] * x[i];
+    }
+
+    double b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    double a = (sumY - b * sumX) / n;
+
+    cout << "Least square line: y = " << a << " + " << b << "x\n";
+    return 0;
+}
+/*
+
+Input:
+
+5
+-2 -1 0 1 2
+1 2 3 4 5
+
+Output:
+
+The line equation is : y = 3 + 1x
+
+*/
+
+
+/*
+
+4.2. Write a program to find the least square parabola y = a + bx + cx2 for the following data
+      x         2       4      6        8
+      y         1.4     2.0     2.4     2.8
+
+
+*/
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter number of data points: ";
+    cin >> n;
+
+    vector<double> x(n), y(n);
+    cout << "Enter x values:\n";
+    for (int i = 0; i < n; i++) cin >> x[i];
+    cout << "Enter y values:\n";
+    for (int i = 0; i < n; i++) cin >> y[i];
+
+   
+    double Sx = 0, Sx2 = 0, Sx3 = 0, Sx4 = 0;
+    double Sy = 0, Sxy = 0, Sx2y = 0;
+
+    for (int i = 0; i < n; i++) {
+        double xi = x[i], yi = y[i];
+        Sx += xi;
+        Sx2 += xi * xi;
+        Sx3 += xi * xi * xi;
+        Sx4 += xi * xi * xi * xi;
+        Sy += yi;
+        Sxy += xi * yi;
+        Sx2y += xi * xi * yi;
+    }
+
+    // augmented matrix
+    double A[3][4] = {
+        {double(n), Sx, Sx2, Sy},
+        {Sx, Sx2, Sx3, Sxy},
+        {Sx2, Sx3, Sx4, Sx2y}
+    };
+
+    
+    //used Gaussian Elimination to find unknown values
+   
+    for (int i = 0; i < 3; i++) {
+        double pivot = A[i][i];
+        for (int j = 0; j < 4; j++) {
+            A[i][j] /= pivot;
+        }
+
+
+        for (int k = 0; k < 3; k++) {
+            if (k == i) continue;
+            double factor = A[k][i];
+            for (int j = 0; j < 4; j++) {
+                A[k][j] -= factor * A[i][j];
+            }
+        }
+    }
+
+    
+    double a = A[0][3];
+    double b = A[1][3];
+    double c = A[2][3];
+
+    
+    cout << "\nBest fit parabola\n";
+    cout << "y = " << a << " + " << b << "x + " << c << "x^2\n";
+
+    return 0;
+}
+/*
+
+Input:
+
+  4
+  2       4      6        8  
+ 1.4    2.0   2.4     2.8
+
+Output:
+
+Best fit parabola
+y = 0.75 + 0.355x + -0.0125x^2
+
+
+
+*/
+
+
+/*
+4.3. Write a program to find the best possible values of a and b from the relation y = ae^bx for the following data:
+     x	2	10	26	61
+     y	600	500	400	350
+
+y= a⋅e^(bx)
+ln(y) = ln(a) + bx
+Y = ln(y)
+A = ln(a)
+Y = A + bx
+*/
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int main() {
+    int n;
+    cout << "Enter number of data points: ";
+    cin >> n;
+
+    vector<double> x(n), y(n);
+    cout << "Enter x values:\n";
+    for (int i = 0; i < n; i++) cin >> x[i];
+    
+    cout << "Enter y values:\n";
+    for (int i = 0; i < n; i++) cin >> y[i];
+
+   
+    double sumX = 0, sumX2 = 0, sumY = 0, sumXY = 0;
+
+    for (int i = 0; i < n; i++) {
+        double Xi = x[i];
+        double Yi = log(y[i]);  
+        
+        sumX += Xi;
+        sumY += Yi;
+        sumX2 += Xi * Xi;
+        sumXY += Xi * Yi;
+    }
+
+   
+    double b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    double A = (sumY - b * sumX) / n;
+
+    double a = exp(A); 
+
+    
+    cout << "\nBest fit exponential curve:\n";
+    cout << "y = " << a << " * e^(" << b << "x)\n";
+
+    return 0;
+}
+/*
+
+Input:
+
+ 4
+2 10 26 61
+600 500 400 350
+
+Output:
+
+Best fit exponential curve:
+y = 558.191 * e^(-0.00846335x)
+
+
+
+*/
+
+/*
+
+4.4. Write a program to solve the following Differential Equation by using Euler�s method.
+        dy / dx = x3 + y,  y (0) = 1. Compute y (0.02) taking h = 0.01.
+
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+double f(double x, double y) {
+    return (x * x * x + y);
+}
+
+int main() {
+    double x, y, h, final_x;
+
+   
+    cout << "x0 = ";
+    cin >> x;
+
+    cout << "y0 = ";
+    cin >> y;
+
+    cout << "h = ";
+    cin >> h;
+
+    cout << "final_x: ";
+    cin >> final_x;
+
+    
+    while (x <final_x) {
+        y = y + h * f(x, y); 
+        x = x + h;           
+    }
+
+    
+    cout << fixed << setprecision(4);
+    cout << "y(" << final_x << ") = " << y << endl;
+
+    return 0;
+}
+/*
+
+Input:
+
+0 1 0.01 0.02
+
+Output:
+
+y(0.02) = 1.0201
+
+*/
+
+
+/*
+
+4.5. Write a program to solve the following Differential Equation by using Runge – Kutta method.
+       dy / dx = x + y, y (0) = 1.  Compute y (0.1) and y (0.2)  taking h = 0.1.
+
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+double fun(double x, double y) {
+    return x + y; 
+}
+
+int main() {
+    double x0, y0, h, xn;
+
+    
+    cout << "x0 =  ";
+    cin >> x0;
+
+    cout << "y0 = ";
+    cin >> y0;
+
+    cout << "h = ";
+    cin >> h;
+
+    cout << "xn = ";
+    cin >> xn;
+
+    double x = x0;
+    double y = y0;
+    double m1,m2,m3,m4;
+
+    
+    while (x < xn) {
+        
+        m1 = fun(x, y);
+        m2 = fun(x + h / 2.0, y + (m1 * h) / 2.0);
+        m3 = fun(x + h / 2.0, y + (m2 * h) / 2.0);
+        m4 = fun(x + h, y + m3 * h);
+
+        double m = m1 + 2 * m2 + 2 * m3 + m4;
+
+        y = y + (m / 6.0) * h;
+        x = x + h;
+    }
+
+    cout << "\ny(" << xn << ") = " << y << endl;
+
+    return 0;
+}
+/*
+
+Input:
+
+0 1 0.1 0.1
+
+Output:
+
+y(0.1) = 1.11034
+
+*/
