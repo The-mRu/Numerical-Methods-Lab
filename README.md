@@ -7,3 +7,10 @@ Welcome to the Numerical Methods Lab repository **CSE-4745_4746 [Sp-25]**.
 1. Write a program to count number of significant digits in a given number.([code](https://github.com/The-mRu/Numerical-Methods-Lab/blob/main/2.1.cpp))
 2. Write a program to round off a number with n digits after decimal point using banker’s rule.([code](https://github.com/The-mRu/Numerical-Methods-Lab/blob/main/2.2.cpp))
 
+## [Lab Assignment 1](https://github.com/The-mRu/Numerical-Methods-Lab/tree/main/Lab%20assignment%201)
+
+## [Lab Assignment 2](https://github.com/The-mRu/Numerical-Methods-Lab/tree/main/Lab%20assignment%202)
+
+## [Lab Assignment 3](https://github.com/The-mRu/Numerical-Methods-Lab/tree/main/Lab%20assignment%203)
+
+## [Lab Assignment 4](https://github.com/The-mRu/Numerical-Methods-Lab/tree/main/Lab%20assignment%204)
